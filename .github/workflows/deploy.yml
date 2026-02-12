@@ -22,4 +22,4 @@ jobs:
           script: |
             cd /opt/odoo19/custom-addons
             git pull origin main
-            # sudo systemctl restart odoo19 # Hapus pagar jika ingin Odoo otomatis restart (butuh setting sudoers)
+            sudo systemctl restart odoo19
