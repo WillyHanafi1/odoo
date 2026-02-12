@@ -1,0 +1,25 @@
+name: Auto Deploy to Odoo Server
+
+on:
+  push:
+    branches:
+      - main  # Trigger jalan setiap kali kamu push ke branch main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Executing remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: odoo19
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /opt/odoo19/custom-addons
+            git pull origin main
+            # sudo systemctl restart odoo19 # Hapus pagar jika ingin Odoo otomatis restart (butuh setting sudoers)
