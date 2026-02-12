@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="hello_page" name="Hello Page">
+        <t t-call="website.layout">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <div class="card shadow-lg border-0 rounded-4 p-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <h1 class="text-white fw-bold mb-3" style="font-size: 2.5rem;">
+                                🚀 Hello from Seriaflow!
+                            </h1>
+                            <p class="text-white-50 fs-5 mb-4">
+                                Modul custom Odoo berhasil terinstall dan berjalan dengan baik.
+                            </p>
+                            <hr class="border-white opacity-25 my-4"/>
+                            <div class="text-white-50">
+                                <p class="mb-1">
+                                    <i class="fa fa-check-circle text-success me-2"/>
+                                    <strong class="text-white">Status:</strong> Aktif &amp; Berjalan
+                                </p>
+                                <p class="mb-1">
+                                    <i class="fa fa-server me-2"/>
+                                    <strong class="text-white">Server:</strong> odoo.seriaflow.com
+                                </p>
+                                <p class="mb-0">
+                                    <i class="fa fa-code me-2"/>
+                                    <strong class="text-white">Versi Modul:</strong> 19.0.1.0.0
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
