@@ -27,6 +27,7 @@
     <!-- Dashboard Action -->
     <record id="action_seriaflow_dashboard" model="ir.actions.act_window">
         <field name="name">Dashboard</field>
+        <field name="path">accounting-lite</field>
         <field name="res_model">seriaflow.expense</field>
         <field name="view_mode">graph,pivot,list</field>
         <field name="context">{'search_default_filter_approved': 1}</field>
