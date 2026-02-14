@@ -8,6 +8,5 @@
     <record id="group_accounting_manager" model="res.groups">
         <field name="name">Seriaflow Accounting Manager</field>
         <field name="implied_ids" eval="[(4, ref('group_accounting_user'))]"/>
-        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
 </odoo>
