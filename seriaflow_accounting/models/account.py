@@ -49,7 +49,7 @@ class SeriaflowAccount(models.Model):
         default=lambda self: self.env.company,
     )
 
-    code_company_uniq = models.Constraint(
+    _code_company_uniq = models.Constraint(
         'unique(code, company_id)',
         'Kode akun harus unik per perusahaan!',
     )
