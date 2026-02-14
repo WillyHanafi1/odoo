@@ -1,6 +1,7 @@
 {
     'name': 'Seriaflow Accounting Lite',
     'version': '19.0.1.0.0',
+    'sequence': 25,
     'summary': 'Lightweight accounting for Odoo Community - Chart of Accounts, Journal Entries, Expenses & P&L Report',
     'description': """
         Seriaflow Accounting Lite

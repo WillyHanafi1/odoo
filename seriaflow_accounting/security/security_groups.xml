@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Privilege (replaces ir.module.category in Odoo 19) -->
+    <record model="res.groups.privilege" id="res_groups_privilege_accounting_lite">
+        <field name="name">Accounting Lite</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- User Group -->
     <record id="group_accounting_user" model="res.groups">
-        <field name="name">Seriaflow Accounting User</field>
+        <field name="name">User</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="res_groups_privilege_accounting_lite"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
+    <!-- Manager Group -->
     <record id="group_accounting_manager" model="res.groups">
-        <field name="name">Seriaflow Accounting Manager</field>
+        <field name="name">Administrator</field>
+        <field name="sequence">20</field>
+        <field name="privilege_id" ref="res_groups_privilege_accounting_lite"/>
         <field name="implied_ids" eval="[(4, ref('group_accounting_user'))]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
 </odoo>
