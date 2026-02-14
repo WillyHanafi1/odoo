@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_seriaflow_account_tree" model="ir.ui.view">
+        <field name="name">seriaflow.account.tree</field>
+        <field name="model">seriaflow.account</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="parent_id"/>
+                <field name="balance" sum="Total Saldo"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_seriaflow_account_form" model="ir.ui.view">
+        <field name="name">seriaflow.account.form</field>
+        <field name="model">seriaflow.account</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="code"/>
+                        <h1>
+                            <field name="code" placeholder="1-1001"/>
+                        </h1>
+                        <label for="name"/>
+                        <h2>
+                            <field name="name" placeholder="Nama Akun"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="account_type"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="balance"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Catatan">
+                            <field name="note" placeholder="Catatan tentang akun ini..."/>
+                        </page>
+                        <page string="Sub Akun">
+                            <field name="child_ids">
+                                <tree>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="account_type"/>
+                                    <field name="balance"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_seriaflow_account_search" model="ir.ui.view">
+        <field name="name">seriaflow.account.search</field>
+        <field name="model">seriaflow.account</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="name"/>
+                <filter name="filter_asset" string="Aset" domain="[('account_type', '=', 'asset')]"/>
+                <filter name="filter_liability" string="Kewajiban" domain="[('account_type', '=', 'liability')]"/>
+                <filter name="filter_equity" string="Modal" domain="[('account_type', '=', 'equity')]"/>
+                <filter name="filter_income" string="Pendapatan" domain="[('account_type', '=', 'income')]"/>
+                <filter name="filter_expense" string="Beban" domain="[('account_type', '=', 'expense')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_type" string="Tipe Akun" context="{'group_by': 'account_type'}"/>
+                    <filter name="group_parent" string="Akun Induk" context="{'group_by': 'parent_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_seriaflow_account" model="ir.actions.act_window">
+        <field name="name">Chart of Accounts</field>
+        <field name="res_model">seriaflow.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_seriaflow_account_search"/>
+    </record>
+</odoo>

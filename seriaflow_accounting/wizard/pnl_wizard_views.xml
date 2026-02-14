@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_seriaflow_pnl_wizard_form" model="ir.ui.view">
+        <field name="name">seriaflow.pnl.wizard.form</field>
+        <field name="model">seriaflow.pnl.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Laporan Laba Rugi">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                    </group>
+                    <group>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_report" string="Cetak Laporan"
+                            type="object" class="oe_highlight"/>
+                    <button string="Batal" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_seriaflow_pnl_wizard" model="ir.actions.act_window">
+        <field name="name">Laporan Laba Rugi</field>
+        <field name="res_model">seriaflow.pnl.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

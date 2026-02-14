@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ==================== ASET ==================== -->
+        <record id="account_asset_root" model="seriaflow.account">
+            <field name="code">1-0000</field>
+            <field name="name">Aset</field>
+            <field name="account_type">asset</field>
+        </record>
+        <record id="account_cash" model="seriaflow.account">
+            <field name="code">1-1001</field>
+            <field name="name">Kas</field>
+            <field name="account_type">asset</field>
+            <field name="parent_id" ref="account_asset_root"/>
+        </record>
+        <record id="account_bank" model="seriaflow.account">
+            <field name="code">1-1002</field>
+            <field name="name">Bank</field>
+            <field name="account_type">asset</field>
+            <field name="parent_id" ref="account_asset_root"/>
+        </record>
+        <record id="account_receivable" model="seriaflow.account">
+            <field name="code">1-1003</field>
+            <field name="name">Piutang Usaha</field>
+            <field name="account_type">asset</field>
+            <field name="parent_id" ref="account_asset_root"/>
+        </record>
+        <record id="account_prepaid" model="seriaflow.account">
+            <field name="code">1-1004</field>
+            <field name="name">Biaya Dibayar Dimuka</field>
+            <field name="account_type">asset</field>
+            <field name="parent_id" ref="account_asset_root"/>
+        </record>
+
+        <!-- ==================== KEWAJIBAN ==================== -->
+        <record id="account_liability_root" model="seriaflow.account">
+            <field name="code">2-0000</field>
+            <field name="name">Kewajiban</field>
+            <field name="account_type">liability</field>
+        </record>
+        <record id="account_payable" model="seriaflow.account">
+            <field name="code">2-1001</field>
+            <field name="name">Hutang Usaha</field>
+            <field name="account_type">liability</field>
+            <field name="parent_id" ref="account_liability_root"/>
+        </record>
+        <record id="account_tax_payable" model="seriaflow.account">
+            <field name="code">2-1002</field>
+            <field name="name">Hutang Pajak</field>
+            <field name="account_type">liability</field>
+            <field name="parent_id" ref="account_liability_root"/>
+        </record>
+
+        <!-- ==================== MODAL ==================== -->
+        <record id="account_equity_root" model="seriaflow.account">
+            <field name="code">3-0000</field>
+            <field name="name">Modal</field>
+            <field name="account_type">equity</field>
+        </record>
+        <record id="account_owner_equity" model="seriaflow.account">
+            <field name="code">3-1001</field>
+            <field name="name">Modal Pemilik</field>
+            <field name="account_type">equity</field>
+            <field name="parent_id" ref="account_equity_root"/>
+        </record>
+        <record id="account_retained_earnings" model="seriaflow.account">
+            <field name="code">3-1002</field>
+            <field name="name">Laba Ditahan</field>
+            <field name="account_type">equity</field>
+            <field name="parent_id" ref="account_equity_root"/>
+        </record>
+
+        <!-- ==================== PENDAPATAN ==================== -->
+        <record id="account_income_root" model="seriaflow.account">
+            <field name="code">4-0000</field>
+            <field name="name">Pendapatan</field>
+            <field name="account_type">income</field>
+        </record>
+        <record id="account_service_income" model="seriaflow.account">
+            <field name="code">4-1001</field>
+            <field name="name">Pendapatan Jasa</field>
+            <field name="account_type">income</field>
+            <field name="parent_id" ref="account_income_root"/>
+        </record>
+        <record id="account_other_income" model="seriaflow.account">
+            <field name="code">4-1002</field>
+            <field name="name">Pendapatan Lainnya</field>
+            <field name="account_type">income</field>
+            <field name="parent_id" ref="account_income_root"/>
+        </record>
+
+        <!-- ==================== BEBAN ==================== -->
+        <record id="account_expense_root" model="seriaflow.account">
+            <field name="code">5-0000</field>
+            <field name="name">Beban</field>
+            <field name="account_type">expense</field>
+        </record>
+        <record id="account_salary_expense" model="seriaflow.account">
+            <field name="code">5-1001</field>
+            <field name="name">Beban Gaji</field>
+            <field name="account_type">expense</field>
+            <field name="parent_id" ref="account_expense_root"/>
+        </record>
+        <record id="account_operational_expense" model="seriaflow.account">
+            <field name="code">5-1002</field>
+            <field name="name">Beban Operasional</field>
+            <field name="account_type">expense</field>
+            <field name="parent_id" ref="account_expense_root"/>
+        </record>
+        <record id="account_marketing_expense" model="seriaflow.account">
+            <field name="code">5-1003</field>
+            <field name="name">Beban Marketing</field>
+            <field name="account_type">expense</field>
+            <field name="parent_id" ref="account_expense_root"/>
+        </record>
+        <record id="account_tools_expense" model="seriaflow.account">
+            <field name="code">5-1004</field>
+            <field name="name">Beban Tools & Software</field>
+            <field name="account_type">expense</field>
+            <field name="parent_id" ref="account_expense_root"/>
+        </record>
+        <record id="account_other_expense" model="seriaflow.account">
+            <field name="code">5-1005</field>
+            <field name="name">Beban Lainnya</field>
+            <field name="account_type">expense</field>
+            <field name="parent_id" ref="account_expense_root"/>
+        </record>
+    </data>
+</odoo>

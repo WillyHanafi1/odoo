@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_seriaflow_journal_entry_tree" model="ir.ui.view">
+        <field name="name">seriaflow.journal.entry.tree</field>
+        <field name="model">seriaflow.journal.entry</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="reference"/>
+                <field name="total_debit" sum="Total Debit"/>
+                <field name="total_credit" sum="Total Credit"/>
+                <field name="is_balanced"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'posted'"
+                       decoration-danger="state == 'cancelled'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_seriaflow_journal_entry_form" model="ir.ui.view">
+        <field name="name">seriaflow.journal.entry.form</field>
+        <field name="model">seriaflow.journal.entry</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_post" string="Post" type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            invisible="state not in ('posted', 'cancelled')"/>
+                    <button name="action_cancel" string="Batalkan" type="object"
+                            invisible="state != 'posted'"
+                            confirm="Apakah Anda yakin ingin membatalkan journal entry ini?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="reference"/>
+                        </group>
+                        <group>
+                            <field name="total_debit"/>
+                            <field name="total_credit"/>
+                            <field name="is_balanced" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Detail Jurnal">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="account_id"/>
+                                    <field name="description"/>
+                                    <field name="partner_id" optional="show"/>
+                                    <field name="debit" sum="Total Debit"/>
+                                    <field name="credit" sum="Total Credit"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Keterangan">
+                            <field name="narration" placeholder="Keterangan tambahan..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_seriaflow_journal_entry_search" model="ir.ui.view">
+        <field name="name">seriaflow.journal.entry.search</field>
+        <field name="model">seriaflow.journal.entry</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="date"/>
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_posted" string="Posted" domain="[('state', '=', 'posted')]"/>
+                <filter name="filter_unbalanced" string="Tidak Balance" domain="[('is_balanced', '=', False)]"/>
+                <separator/>
+                <filter name="filter_this_month" string="Bulan Ini"
+                        domain="[('date', '&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
+                <filter name="filter_this_year" string="Tahun Ini"
+                        domain="[('date', '&gt;=', (context_today()).strftime('%Y-01-01'))]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_month" string="Bulan" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_seriaflow_journal_entry" model="ir.actions.act_window">
+        <field name="name">Journal Entries</field>
+        <field name="res_model">seriaflow.journal.entry</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_seriaflow_journal_entry_search"/>
+        <field name="context">{'search_default_filter_draft': 1}</field>
+    </record>
+</odoo>

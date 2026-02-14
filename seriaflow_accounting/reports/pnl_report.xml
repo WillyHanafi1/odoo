@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_pnl" model="ir.actions.report">
+        <field name="name">Laporan Laba Rugi</field>
+        <field name="model">seriaflow.pnl.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">seriaflow_accounting.report_pnl_template</field>
+        <field name="report_file">seriaflow_accounting.report_pnl_template</field>
+        <field name="print_report_name">'Laporan_Laba_Rugi_%s_%s' % (object.date_from, object.date_to)</field>
+    </record>
+
+    <!-- Report Template -->
+    <template id="report_pnl_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wizard">
+                <t t-set="data" t-value="wizard._get_report_data(wizard.date_from, wizard.date_to)"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="text-center mb-4">
+                            <h2>LAPORAN LABA RUGI</h2>
+                            <h4>(Profit &amp; Loss Statement)</h4>
+                            <p>
+                                Periode:
+                                <strong t-esc="data['date_from']"/> s/d
+                                <strong t-esc="data['date_to']"/>
+                            </p>
+                        </div>
+
+                        <!-- PENDAPATAN -->
+                        <h4 class="mt-4" style="color: #28a745;">PENDAPATAN</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Nama Akun</th>
+                                    <th class="text-end">Jumlah (Rp)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="data['income_data']" t-as="item">
+                                    <tr>
+                                        <td t-esc="item['code']"/>
+                                        <td t-esc="item['name']"/>
+                                        <td class="text-end" t-esc="'{:,.2f}'.format(item['balance'])"/>
+                                    </tr>
+                                </t>
+                                <t t-if="not data['income_data']">
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">
+                                            Tidak ada data pendapatan
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold" style="border-top: 2px solid #28a745;">
+                                    <td colspan="2">Total Pendapatan</td>
+                                    <td class="text-end" t-esc="'{:,.2f}'.format(data['total_income'])"/>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- BEBAN -->
+                        <h4 class="mt-4" style="color: #dc3545;">BEBAN</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Nama Akun</th>
+                                    <th class="text-end">Jumlah (Rp)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="data['expense_data']" t-as="item">
+                                    <tr>
+                                        <td t-esc="item['code']"/>
+                                        <td t-esc="item['name']"/>
+                                        <td class="text-end" t-esc="'{:,.2f}'.format(item['balance'])"/>
+                                    </tr>
+                                </t>
+                                <t t-if="not data['expense_data']">
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">
+                                            Tidak ada data beban
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold" style="border-top: 2px solid #dc3545;">
+                                    <td colspan="2">Total Beban</td>
+                                    <td class="text-end" t-esc="'{:,.2f}'.format(data['total_expense'])"/>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- NET PROFIT -->
+                        <table class="table mt-4">
+                            <tr class="fw-bold fs-4" t-att-style="'border-top: 3px double; color: %s;' % ('green' if data['net_profit'] >= 0 else 'red')">
+                                <td>LABA (RUGI) BERSIH</td>
+                                <td class="text-end" t-esc="'{:,.2f}'.format(data['net_profit'])"/>
+                            </tr>
+                        </table>
+
+                        <div class="mt-5 text-muted text-center" style="font-size: 0.8em;">
+                            <p>Laporan ini digenerate otomatis oleh Seriaflow Accounting Lite</p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

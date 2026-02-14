@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seriaflow_account_user,seriaflow.account.user,model_seriaflow_account,group_accounting_user,1,0,0,0
+access_seriaflow_account_manager,seriaflow.account.manager,model_seriaflow_account,group_accounting_manager,1,1,1,1
+access_seriaflow_journal_entry_user,seriaflow.journal.entry.user,model_seriaflow_journal_entry,group_accounting_user,1,1,1,0
+access_seriaflow_journal_entry_manager,seriaflow.journal.entry.manager,model_seriaflow_journal_entry,group_accounting_manager,1,1,1,1
+access_seriaflow_journal_entry_line_user,seriaflow.journal.entry.line.user,model_seriaflow_journal_entry_line,group_accounting_user,1,1,1,0
+access_seriaflow_journal_entry_line_manager,seriaflow.journal.entry.line.manager,model_seriaflow_journal_entry_line,group_accounting_manager,1,1,1,1
+access_seriaflow_expense_user,seriaflow.expense.user,model_seriaflow_expense,group_accounting_user,1,1,1,0
+access_seriaflow_expense_manager,seriaflow.expense.manager,model_seriaflow_expense,group_accounting_manager,1,1,1,1
+access_seriaflow_pnl_wizard_user,seriaflow.pnl.wizard.user,model_seriaflow_pnl_wizard,group_accounting_user,1,1,1,1

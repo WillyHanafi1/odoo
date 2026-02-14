@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Top Menu -->
+    <menuitem id="menu_seriaflow_accounting_root"
+              name="Accounting Lite"
+              web_icon="seriaflow_accounting,static/description/icon.png"
+              sequence="25"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_seriaflow_dashboard"
+              name="Dashboard"
+              parent="menu_seriaflow_accounting_root"
+              action="action_seriaflow_dashboard"
+              sequence="1"/>
+
+    <!-- Saldo Akun -->
+    <menuitem id="menu_seriaflow_account_balance"
+              name="Saldo Akun"
+              parent="menu_seriaflow_accounting_root"
+              action="action_seriaflow_account_balance"
+              sequence="2"/>
+
+    <!-- Journal Entries Menu -->
+    <menuitem id="menu_seriaflow_journal"
+              name="Jurnal"
+              parent="menu_seriaflow_accounting_root"
+              sequence="10"/>
+
+    <menuitem id="menu_seriaflow_journal_entries"
+              name="Journal Entries"
+              parent="menu_seriaflow_journal"
+              action="action_seriaflow_journal_entry"
+              sequence="1"/>
+
+    <!-- Expenses Menu -->
+    <menuitem id="menu_seriaflow_expenses"
+              name="Pengeluaran"
+              parent="menu_seriaflow_accounting_root"
+              sequence="20"/>
+
+    <menuitem id="menu_seriaflow_expense_my"
+              name="Expense Saya"
+              parent="menu_seriaflow_expenses"
+              action="action_seriaflow_expense_my"
+              sequence="1"/>
+
+    <menuitem id="menu_seriaflow_expense_all"
+              name="Semua Expense"
+              parent="menu_seriaflow_expenses"
+              action="action_seriaflow_expense"
+              sequence="2"
+              groups="seriaflow_accounting.group_accounting_manager"/>
+
+    <!-- Reports Menu -->
+    <menuitem id="menu_seriaflow_reports"
+              name="Laporan"
+              parent="menu_seriaflow_accounting_root"
+              sequence="30"/>
+
+    <menuitem id="menu_seriaflow_pnl_report"
+              name="Laba Rugi (P&amp;L)"
+              parent="menu_seriaflow_reports"
+              action="action_seriaflow_pnl_wizard"
+              sequence="1"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_seriaflow_config"
+              name="Konfigurasi"
+              parent="menu_seriaflow_accounting_root"
+              sequence="90"
+              groups="seriaflow_accounting.group_accounting_manager"/>
+
+    <menuitem id="menu_seriaflow_chart_of_accounts"
+              name="Chart of Accounts"
+              parent="menu_seriaflow_config"
+              action="action_seriaflow_account"
+              sequence="1"/>
+</odoo>

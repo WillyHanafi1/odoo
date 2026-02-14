@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_seriaflow_expense_tree" model="ir.ui.view">
+        <field name="name">seriaflow.expense.tree</field>
+        <field name="model">seriaflow.expense</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-warning="state == 'submitted'" decoration-muted="state == 'rejected'">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="amount" sum="Total Pengeluaran"/>
+                <field name="user_id"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'submitted'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'rejected'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_seriaflow_expense_form" model="ir.ui.view">
+        <field name="name">seriaflow.expense.form</field>
+        <field name="model">seriaflow.expense</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Ajukan" type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Setujui" type="object"
+                            class="oe_highlight"
+                            invisible="state != 'submitted'"
+                            groups="seriaflow_accounting.group_accounting_manager"/>
+                    <button name="action_reject" string="Tolak" type="object"
+                            invisible="state != 'submitted'"
+                            groups="seriaflow_accounting.group_accounting_manager"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            invisible="state not in ('submitted', 'rejected')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Deskripsi pengeluaran..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="category"/>
+                            <field name="account_id"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="partner_id"/>
+                            <field name="approved_by"/>
+                            <field name="journal_entry_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Catatan">
+                            <field name="note" placeholder="Catatan tambahan..."/>
+                        </page>
+                        <page string="Bukti/Nota">
+                            <group>
+                                <field name="attachment" filename="attachment_name"/>
+                                <field name="attachment_name" invisible="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_seriaflow_expense_search" model="ir.ui.view">
+        <field name="name">seriaflow.expense.search</field>
+        <field name="model">seriaflow.expense</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="user_id"/>
+                <filter name="filter_my" string="Expense Saya" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_submitted" string="Diajukan" domain="[('state', '=', 'submitted')]"/>
+                <filter name="filter_approved" string="Disetujui" domain="[('state', '=', 'approved')]"/>
+                <separator/>
+                <filter name="filter_this_month" string="Bulan Ini"
+                        domain="[('date', '&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Kategori" context="{'group_by': 'category'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_month" string="Bulan" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action: All Expenses -->
+    <record id="action_seriaflow_expense" model="ir.actions.act_window">
+        <field name="name">Expenses</field>
+        <field name="res_model">seriaflow.expense</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_seriaflow_expense_search"/>
+    </record>
+
+    <!-- Action: My Expenses -->
+    <record id="action_seriaflow_expense_my" model="ir.actions.act_window">
+        <field name="name">My Expenses</field>
+        <field name="res_model">seriaflow.expense</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_seriaflow_expense_search"/>
+        <field name="context">{'search_default_filter_my': 1}</field>
+    </record>
+</odoo>

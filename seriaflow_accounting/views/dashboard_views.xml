@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Dashboard Action (using Account model with pivot/graph) -->
+    <record id="view_seriaflow_expense_pivot" model="ir.ui.view">
+        <field name="name">seriaflow.expense.pivot</field>
+        <field name="model">seriaflow.expense</field>
+        <field name="arch" type="xml">
+            <pivot string="Expense Analysis">
+                <field name="category" type="row"/>
+                <field name="date" type="col" interval="month"/>
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_seriaflow_expense_graph" model="ir.ui.view">
+        <field name="name">seriaflow.expense.graph</field>
+        <field name="model">seriaflow.expense</field>
+        <field name="arch" type="xml">
+            <graph string="Expense Analysis" type="bar">
+                <field name="category"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Dashboard Action -->
+    <record id="action_seriaflow_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">seriaflow.expense</field>
+        <field name="view_mode">graph,pivot,tree</field>
+        <field name="context">{'search_default_filter_approved': 1}</field>
+        <field name="search_view_id" ref="view_seriaflow_expense_search"/>
+    </record>
+
+    <!-- Account Balance Overview -->
+    <record id="view_seriaflow_account_balance_tree" model="ir.ui.view">
+        <field name="name">seriaflow.account.balance.tree</field>
+        <field name="model">seriaflow.account</field>
+        <field name="arch" type="xml">
+            <tree decoration-bf="not parent_id" create="0" edit="0">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="balance" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_seriaflow_account_balance" model="ir.actions.act_window">
+        <field name="name">Saldo Akun</field>
+        <field name="res_model">seriaflow.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_seriaflow_account_balance_tree"/>
+        <field name="search_view_id" ref="view_seriaflow_account_search"/>
+    </record>
+</odoo>
