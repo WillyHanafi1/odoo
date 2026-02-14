@@ -28,30 +28,30 @@
     <record id="action_seriaflow_dashboard" model="ir.actions.act_window">
         <field name="name">Dashboard</field>
         <field name="res_model">seriaflow.expense</field>
-        <field name="view_mode">graph,pivot,tree</field>
+        <field name="view_mode">graph,pivot,list</field>
         <field name="context">{'search_default_filter_approved': 1}</field>
         <field name="search_view_id" ref="view_seriaflow_expense_search"/>
     </record>
 
     <!-- Account Balance Overview -->
-    <record id="view_seriaflow_account_balance_tree" model="ir.ui.view">
-        <field name="name">seriaflow.account.balance.tree</field>
+    <record id="view_seriaflow_account_balance_list" model="ir.ui.view">
+        <field name="name">seriaflow.account.balance.list</field>
         <field name="model">seriaflow.account</field>
         <field name="arch" type="xml">
-            <tree decoration-bf="not parent_id" create="0" edit="0">
+            <list decoration-bf="not parent_id" create="0" edit="0">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="account_type"/>
                 <field name="balance" sum="Total"/>
-            </tree>
+            </list>
         </field>
     </record>
 
     <record id="action_seriaflow_account_balance" model="ir.actions.act_window">
         <field name="name">Saldo Akun</field>
         <field name="res_model">seriaflow.account</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_seriaflow_account_balance_tree"/>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_seriaflow_account_balance_list"/>
         <field name="search_view_id" ref="view_seriaflow_account_search"/>
     </record>
 </odoo>

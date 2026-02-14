@@ -22,8 +22,8 @@
                             <h4>(Profit &amp; Loss Statement)</h4>
                             <p>
                                 Periode:
-                                <strong t-esc="data['date_from']"/> s/d
-                                <strong t-esc="data['date_to']"/>
+                                <strong t-out="data['date_from']"/> s/d
+                                <strong t-out="data['date_to']"/>
                             </p>
                         </div>
 
@@ -40,9 +40,9 @@
                             <tbody>
                                 <t t-foreach="data['income_data']" t-as="item">
                                     <tr>
-                                        <td t-esc="item['code']"/>
-                                        <td t-esc="item['name']"/>
-                                        <td class="text-end" t-esc="'{:,.2f}'.format(item['balance'])"/>
+                                        <td t-out="item['code']"/>
+                                        <td t-out="item['name']"/>
+                                        <td class="text-end" t-out="'{:,.2f}'.format(item['balance'])"/>
                                     </tr>
                                 </t>
                                 <t t-if="not data['income_data']">
@@ -56,7 +56,7 @@
                             <tfoot>
                                 <tr class="fw-bold" style="border-top: 2px solid #28a745;">
                                     <td colspan="2">Total Pendapatan</td>
-                                    <td class="text-end" t-esc="'{:,.2f}'.format(data['total_income'])"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(data['total_income'])"/>
                                 </tr>
                             </tfoot>
                         </table>
@@ -74,9 +74,9 @@
                             <tbody>
                                 <t t-foreach="data['expense_data']" t-as="item">
                                     <tr>
-                                        <td t-esc="item['code']"/>
-                                        <td t-esc="item['name']"/>
-                                        <td class="text-end" t-esc="'{:,.2f}'.format(item['balance'])"/>
+                                        <td t-out="item['code']"/>
+                                        <td t-out="item['name']"/>
+                                        <td class="text-end" t-out="'{:,.2f}'.format(item['balance'])"/>
                                     </tr>
                                 </t>
                                 <t t-if="not data['expense_data']">
@@ -90,7 +90,7 @@
                             <tfoot>
                                 <tr class="fw-bold" style="border-top: 2px solid #dc3545;">
                                     <td colspan="2">Total Beban</td>
-                                    <td class="text-end" t-esc="'{:,.2f}'.format(data['total_expense'])"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(data['total_expense'])"/>
                                 </tr>
                             </tfoot>
                         </table>
@@ -99,7 +99,7 @@
                         <table class="table mt-4">
                             <tr class="fw-bold fs-4" t-att-style="'border-top: 3px double; color: %s;' % ('green' if data['net_profit'] >= 0 else 'red')">
                                 <td>LABA (RUGI) BERSIH</td>
-                                <td class="text-end" t-esc="'{:,.2f}'.format(data['net_profit'])"/>
+                                <td class="text-end" t-out="'{:,.2f}'.format(data['net_profit'])"/>
                             </tr>
                         </table>
 

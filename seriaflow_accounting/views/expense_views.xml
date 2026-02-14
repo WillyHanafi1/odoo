@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Tree View -->
-    <record id="view_seriaflow_expense_tree" model="ir.ui.view">
-        <field name="name">seriaflow.expense.tree</field>
+    <!-- List View -->
+    <record id="view_seriaflow_expense_list" model="ir.ui.view">
+        <field name="name">seriaflow.expense.list</field>
         <field name="model">seriaflow.expense</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-warning="state == 'submitted'" decoration-muted="state == 'rejected'">
+            <list decoration-info="state == 'draft'" decoration-warning="state == 'submitted'" decoration-muted="state == 'rejected'">
                 <field name="date"/>
                 <field name="name"/>
                 <field name="category"/>
@@ -16,7 +16,7 @@
                        decoration-warning="state == 'submitted'"
                        decoration-success="state == 'approved'"
                        decoration-danger="state == 'rejected'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -96,7 +96,7 @@
                 <filter name="filter_this_month" string="Bulan Ini"
                         domain="[('date', '&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_category" string="Kategori" context="{'group_by': 'category'}"/>
                     <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
                     <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
@@ -110,7 +110,7 @@
     <record id="action_seriaflow_expense" model="ir.actions.act_window">
         <field name="name">Expenses</field>
         <field name="res_model">seriaflow.expense</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_seriaflow_expense_search"/>
     </record>
 
@@ -118,7 +118,7 @@
     <record id="action_seriaflow_expense_my" model="ir.actions.act_window">
         <field name="name">My Expenses</field>
         <field name="res_model">seriaflow.expense</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_seriaflow_expense_search"/>
         <field name="context">{'search_default_filter_my': 1}</field>
     </record>

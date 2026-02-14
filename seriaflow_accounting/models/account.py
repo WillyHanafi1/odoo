@@ -49,10 +49,10 @@ class SeriaflowAccount(models.Model):
         default=lambda self: self.env.company,
     )
 
-    _sql_constraints = [
-        ('code_company_uniq', 'unique(code, company_id)',
-         'Kode akun harus unik per perusahaan!'),
-    ]
+    code_company_uniq = models.Constraint(
+        'unique(code, company_id)',
+        'Kode akun harus unik per perusahaan!',
+    )
 
     def _compute_display_name(self):
         for rec in self:

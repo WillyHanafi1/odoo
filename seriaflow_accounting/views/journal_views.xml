@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Tree View -->
-    <record id="view_seriaflow_journal_entry_tree" model="ir.ui.view">
-        <field name="name">seriaflow.journal.entry.tree</field>
+    <!-- List View -->
+    <record id="view_seriaflow_journal_entry_list" model="ir.ui.view">
+        <field name="name">seriaflow.journal.entry.list</field>
         <field name="model">seriaflow.journal.entry</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+            <list decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="reference"/>
@@ -16,7 +16,7 @@
                        decoration-info="state == 'draft'"
                        decoration-success="state == 'posted'"
                        decoration-danger="state == 'cancelled'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -60,13 +60,13 @@
                     <notebook>
                         <page string="Detail Jurnal">
                             <field name="line_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="account_id"/>
                                     <field name="description"/>
                                     <field name="partner_id" optional="show"/>
                                     <field name="debit" sum="Total Debit"/>
                                     <field name="credit" sum="Total Credit"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Keterangan">
@@ -96,7 +96,7 @@
                 <filter name="filter_this_year" string="Tahun Ini"
                         domain="[('date', '&gt;=', (context_today()).strftime('%Y-01-01'))]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
                     <filter name="group_month" string="Bulan" context="{'group_by': 'date:month'}"/>
                 </group>
@@ -108,7 +108,7 @@
     <record id="action_seriaflow_journal_entry" model="ir.actions.act_window">
         <field name="name">Journal Entries</field>
         <field name="res_model">seriaflow.journal.entry</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_seriaflow_journal_entry_search"/>
         <field name="context">{'search_default_filter_draft': 1}</field>
     </record>

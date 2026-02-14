@@ -3,7 +3,7 @@
     <!-- Top Menu -->
     <menuitem id="menu_seriaflow_accounting_root"
               name="Accounting Lite"
-              web_icon="seriaflow_accounting,static/description/icon.png"
+              web_icon="seriaflow_accounting,static/description/icon.svg"
               sequence="25"/>
 
     <!-- Dashboard -->
