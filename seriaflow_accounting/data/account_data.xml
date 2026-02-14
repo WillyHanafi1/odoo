@@ -115,7 +115,7 @@
         </record>
         <record id="account_tools_expense" model="seriaflow.account">
             <field name="code">5-1004</field>
-            <field name="name">Beban Tools & Software</field>
+            <field name="name">Beban Tools &amp; Software</field>
             <field name="account_type">expense</field>
             <field name="parent_id" ref="account_expense_root"/>
         </record>
