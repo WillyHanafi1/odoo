@@ -35,5 +35,4 @@
     'installable': True,
     'application': True,
     'auto_install': False,
-    'icon': '/seriaflow_accounting/static/description/icon.svg',
 }

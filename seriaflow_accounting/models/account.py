@@ -5,7 +5,6 @@ class SeriaflowAccount(models.Model):
     _name = 'seriaflow.account'
     _description = 'Chart of Accounts'
     _order = 'code'
-    _rec_name = 'display_name'
 
     code = fields.Char(
         string='Kode Akun',
@@ -15,11 +14,6 @@ class SeriaflowAccount(models.Model):
     name = fields.Char(
         string='Nama Akun',
         required=True,
-    )
-    display_name = fields.Char(
-        string='Akun',
-        compute='_compute_display_name',
-        store=True,
     )
     account_type = fields.Selection(
         selection=[
@@ -60,13 +54,9 @@ class SeriaflowAccount(models.Model):
          'Kode akun harus unik per perusahaan!'),
     ]
 
-    @api.depends('code', 'name')
     def _compute_display_name(self):
         for rec in self:
-            if rec.code and rec.name:
-                rec.display_name = f"[{rec.code}] {rec.name}"
-            else:
-                rec.display_name = rec.name or ''
+            rec.display_name = f"[{rec.code}] {rec.name}" if rec.code else rec.name or ''
 
     def _compute_balance(self):
         for account in self:
