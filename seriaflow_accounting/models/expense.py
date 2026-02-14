@@ -4,7 +4,6 @@ from odoo import models, fields, api
 class SeriaflowExpense(models.Model):
     _name = 'seriaflow.expense'
     _description = 'Expense Tracker'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'date desc, id desc'
 
     name = fields.Char(
@@ -15,12 +14,10 @@ class SeriaflowExpense(models.Model):
         string='Tanggal',
         required=True,
         default=fields.Date.context_today,
-        tracking=True,
     )
     amount = fields.Float(
         string='Jumlah (Rp)',
         required=True,
-        tracking=True,
     )
     category = fields.Selection(
         selection=[
@@ -35,7 +32,6 @@ class SeriaflowExpense(models.Model):
         string='Kategori',
         required=True,
         default='operational',
-        tracking=True,
     )
     state = fields.Selection(
         selection=[
@@ -46,7 +42,6 @@ class SeriaflowExpense(models.Model):
         ],
         string='Status',
         default='draft',
-        tracking=True,
     )
     account_id = fields.Many2one(
         'seriaflow.account',

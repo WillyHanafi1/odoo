@@ -18,7 +18,7 @@
     'website': 'https://seriaflow.com',
     'category': 'Accounting',
     'license': 'LGPL-3',
-    'depends': ['base', 'mail'],
+    'depends': ['base'],
     'data': [
         'security/security_groups.xml',
         'security/ir.model.access.csv',

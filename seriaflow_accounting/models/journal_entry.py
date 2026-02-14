@@ -5,7 +5,6 @@ from odoo.exceptions import ValidationError
 class SeriaflowJournalEntry(models.Model):
     _name = 'seriaflow.journal.entry'
     _description = 'Journal Entry'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'date desc, id desc'
 
     name = fields.Char(
@@ -19,7 +18,6 @@ class SeriaflowJournalEntry(models.Model):
         string='Tanggal',
         required=True,
         default=fields.Date.context_today,
-        tracking=True,
     )
     reference = fields.Char(
         string='Referensi',
@@ -34,7 +32,6 @@ class SeriaflowJournalEntry(models.Model):
         ],
         string='Status',
         default='draft',
-        tracking=True,
     )
     line_ids = fields.One2many(
         'seriaflow.journal.entry.line',
