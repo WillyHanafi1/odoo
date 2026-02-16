@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <record id="payment.payment_provider_midtrans" model="payment.provider">
+    <record id="payment_provider_midtrans" model="payment.provider">
+        <field name="name">Midtrans</field>
         <field name="code">midtrans</field>
         <field name="redirect_form_view_id" ref="redirect_form"/>
     </record>
