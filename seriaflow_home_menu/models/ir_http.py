@@ -10,16 +10,6 @@ class IrHttp(models.AbstractModel):
     _inherit = 'ir.http'
 
     @classmethod
-    def _pre_dispatch(cls, rule, args):
-        super()._pre_dispatch(rule, args)
-        
-        # Intercept root path BEFORE any other controller handles it (like website)
-        # We only do this if the user is logged in
-        if request.httprequest.path == '/':
-            if request.session.uid and request.env.user._is_internal():
-                werkzeug.exceptions.abort(request.redirect('/odoo/home'))
-
-    @classmethod
     def _post_dispatch(cls, response):
         response = super()._post_dispatch(response)
         
