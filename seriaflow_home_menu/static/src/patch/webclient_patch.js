@@ -16,6 +16,10 @@ patch(WebClient.prototype, {
             await this.actionService.doAction("seriaflow.home_menu", {
                 clearBreadcrumbs: true,
             });
+            // Overwrite the URL to just /odoo or / after loading it
+            // Odoo's framework natively keeps `?action=seriaflow.home_menu`. 
+            // We clear the router hash/search to keep the URL look clean.
+            this.env.services.router.pushState({}, { replace: true });
         } catch (e) {
             console.error("Failed to load Seriaflow Home Menu", e);
             super._loadDefaultApp(...arguments);
