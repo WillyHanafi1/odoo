@@ -12,8 +12,12 @@
     'data': [],
     'assets': {
         'web.assets_backend': [
-            'seriaflow_home_menu/static/src/home_menu/**/*',
-            'seriaflow_home_menu/static/src/patch/**/*',
+            'seriaflow_home_menu/static/src/home_menu/home_menu.scss',
+            'seriaflow_home_menu/static/src/home_menu/home_menu.xml',
+            'seriaflow_home_menu/static/src/home_menu/home_menu.js',
+            'seriaflow_home_menu/static/src/patch/webclient_patch.js',
+            'seriaflow_home_menu/static/src/home_menu_systray/home_menu_systray.xml',
+            'seriaflow_home_menu/static/src/home_menu_systray/home_menu_systray.js',
         ],
     },
     'installable': True,

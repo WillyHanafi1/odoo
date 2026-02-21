@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Global Home Button for the Navbar Systray -->
+    <t t-name="seriaflow_home_menu.HomeMenuSystray">
+        <div class="o_user_menu d-flex align-items-center me-2 pe-2 border-end border-light">
+            <button class="btn btn-sm btn-primary d-flex align-items-center justify-content-center shadow-none rounded-pill px-3"
+                    t-on-click="onGlobalHomeClick"
+                    title="Return to Home Menu"
+                    style="gap: 5px;">
+                <i class="oi oi-home fs-5"/>
+                <span class="d-none d-md-inline fw-semibold">Home</span>
+            </button>
+        </div>
+    </t>
+
+</templates>
