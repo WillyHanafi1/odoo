@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="seriaflow_home_menu.HomeMenu">
+        <div class="o_home_menu">
+            <div class="o_home_menu_search">
+                <input type="text"
+                    class="form-control"
+                    placeholder="Search apps..."
+                    t-model="state.searchQuery"/>
+                <i class="fa fa-search o_search_icon"/>
+            </div>
+
+            <div class="o_home_menu_apps">
+                <t t-foreach="filteredApps" t-as="app" t-key="app.id">
+                    <div class="o_home_menu_app" t-on-click="() => this.onAppClick(app)">
+                        <!-- Check if icon data is available, otherwise show a generic icon -->
+                        <t t-if="app.webIconData">
+                            <img class="o_home_menu_app_icon" t-attf-src="{{app.webIconData}}" t-att-alt="app.name"/>
+                        </t>
+                        <t t-else="">
+                            <div class="o_home_menu_app_icon o_home_menu_app_icon_placeholder">
+                                <i class="fa fa-cube fa-3x"/>
+                            </div>
+                        </t>
+                        <div class="o_home_menu_app_name" t-esc="app.name"/>
+                    </div>
+                </t>
+            </div>
+            
+            <t t-if="filteredApps.length === 0">
+                <div class="o_home_menu_no_results">
+                    <p>No apps found for "<t t-esc="state.searchQuery"/>"</p>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>
