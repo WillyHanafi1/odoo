@@ -41,13 +41,16 @@
 
     .o_home_menu_apps {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
-        /* 30% smaller than 120px */
+        grid-template-columns: repeat(6, 1fr);
+        /* Exactly 6 apps per row */
         gap: 20px;
         /* Adjusted gap proportionally */
         width: 100%;
-        max-width: 1000px;
+        max-width: 900px;
+        /* Constrain grid width so 6 apps look nice */
         padding: 20px;
+        justify-items: center;
+        /* Center items in their columns */
     }
 
     .o_home_menu_app {
