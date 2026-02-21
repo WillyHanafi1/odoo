@@ -6,12 +6,12 @@ from odoo.addons.web.controllers.utils import is_user_internal
 
 class SeriaflowHome(Home):
     
-    @http.route('/', type='http', auth="none")
-    def index(self, s_action=None, db=None, **kw):
-        """ Redirect the root domain directly to our custom Home Menu path """
-        if request.db and request.session.uid and not is_user_internal(request.session.uid):
-            return request.redirect_query('/web/login_successful', query=request.params)
-        return request.redirect_query('/odoo/home', query=request.params)
+    @http.route()
+    def index(self, *args, **kw):
+        """ Redirect the root domain to our custom Home Menu path if logged in """
+        if request.session.uid and is_user_internal(request.session.uid):
+            return request.redirect_query('/odoo/home', query=request.params)
+        return super().index(*args, **kw)
 
     def _login_redirect(self, uid, redirect=None):
         """ Override the post-login redirect to push users to /odoo/home """
