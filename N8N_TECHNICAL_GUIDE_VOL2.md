@@ -1,28 +1,22 @@
 # Buku Panduan Teknis n8n + Odoo 19 (Volume 2)
 **Kategori 2: Menutup Kebocoran Sales & Leads**
 
-Dokumen ini berisi panduan teknis langkah demi langkah (kombinasi *node* n8n dan pengaturan Odoo) untuk mengeksekusi 7 ide otomatisasi Kategori 2.
+Dokumen ini berisi panduan teknis langkah demi langkah (kombinasi *node* n8n dan pengaturan Odoo) untuk mengeksekusi otomatisasi Kategori 2.
 
 ---
 
-## 8. Log Transaksi Transparan: "Sales Saya Bilang Udah di-Follow Up, Bohong Nggak Ya?"
-**Konsep:** Menggunakan fitur BCC Odoo atau integrasi n8n untuk mencatat setiap email/WA yang dikirim sales langsung ke tab *Chatter* di Odoo CRM.
+## 8. Sinkronisasi Otomatis Facebook/TikTok Lead Ads ke Odoo CRM
+**Konsep:** Saat prospek mengisi *form* iklan di platform Meta atau TikTok, n8n seketika (*real-time*) menangkap data tersebut dan memasukkannya sebagai Lead baru di Odoo. Hal ini meniadakan kebiasaan mengunduh file CSV manual, sehingga *sales* dapat menghubungi prospek dalam hitungan detik.
 
 **Langkah-langkah n8n:**
-1. **Node 1: Webhook (Menerima Notifikasi dari WA/Email API)**
-   * Buat *Webhook* di n8n untuk menerima Payload dari penyedia WA/Email setiap kali ada pesan keluar dari handphone/inbox sales.
-2. **Node 2: Odoo (Mencari Lead Klien)**
+1. **Node 1: Meta/TikTok Lead Trigger**
+   * Gunakan *webhook trigger* khusus n8n atau *node* integrasi resmi platform terkait (Facebook Lead Ads) saat ada *form* disubmit.
+2. **Node 2: Data Cleansing (Code Node)**
+   * Format nomor HP yang masuk agar sesuai standar (Contoh: Konversi awalan `08` atau `62` acak menjadi `+628`) menggunakan Regex di *node code*.
+3. **Node 3: Odoo (Create CRM Lead)**
    * **Model Name:** `crm.lead`
-   * **Operation:** Get Many
-   * **Filter:** `phone` = `{{ $json.body.nomor_tujuan }}` atau `email_from` = `{{ $json.body.email_tujuan }}`. (Mencari apakah klien ini ada di database).
-3. **Node 3: Odoo (Catat ke Chatter CRM)**
-   * **Model Name:** `mail.message`
    * **Operation:** Create
-   * **Data:**
-     * `res_id`: ID Lead dari Node 2.
-     * `model`: `crm.lead`
-     * `body`: `Log Komunikasi: Sales mengirim WA berbunyi: "{{ $json.body.pesan }}"`
-     * `message_type`: `comment`
+   * **Data:** Masukkan nama prospek, nomor HP yang sudah dibersihkan, *email*, dan beri otomatis `tag_ids` sumber seperti "FB Ads" atau "TikTok Ads".
 
 ---
 
@@ -62,19 +56,21 @@ Dokumen ini berisi panduan teknis langkah demi langkah (kombinasi *node* n8n dan
 
 ---
 
-## 11. Sistem Pemerataan Leads (Round-Robin)
-**Konsep:** Membagi Leads yang masuk dari pameran/iklan secara bergilir (Misal: Sales A -> B -> C -> kembali ke A).
+## 11. Integrasi Pesanan E-Commerce Eksternal (Shopify/WooCommerce)
+**Konsep:** Saat pelanggan melakukan pembelian (*checkout*) dari toko *online* atau platform *e-commerce* eksternal, n8n secara otomatis mengimpor rincian pesanan dan menyulapnya menjadi draf *Sales Order* dan *Invoice* (Tagihan) di Odoo, guna menghindari input dobel admin.
 
 **Langkah-langkah n8n:**
-1. **Node 1: Trigger (Lead Baru Masuk)**
-2. **Node 2: Redis / Read-Write Data (Tracker Giliran)**
-   * Karena n8n adalah *stateless* (tidak ingat run sebelumnya), gunakan *node* eksternal (Database, Airtable, atau variabel memori) untuk menyimpan angka "Giliran Siapa Sekarang" (Misal: 1, 2, atau 3).
-3. **Node 3: Switch Node**
-   * Jika 1 -> Assign Odoo Lead ke User_ID Sales A. Simpan Giliran = 2.
-   * Jika 2 -> Assign Odoo Lead ke User_ID Sales B. Simpan Giliran = 3.
-   * Jika 3 -> Assign Odoo Lead ke User_ID Sales C. Simpan Giliran = 1.
-4. **Node 4: Odoo (Update Lead)**
-   * Update *record* `crm.lead` dengan `user_id` yang terpilih.
+1. **Node 1: WooCommerce/Shopify Trigger**
+   * Menangkap/merekam seketika saat ada perubahan *status* menjadi `Order Created` atau `Order Paid` dari platform *e-commerce*.
+2. **Node 2: Odoo (Cari/Buat Kontak Partner)**
+   * Cari via *email* (*Model:* `res.partner`). Apabila belum terdaftar, buat profil *customer* baru.
+3. **Node 3: Odoo (Create Sales Order)**
+   * **Model Name:** `sale.order`
+   * **Operation:** Create
+   * Tautkan ID kontak dari *node* sebelumnya.
+4. **Node 4: Odoo (Loop Order Lines)**
+   * Lakukan iterasi (*looping*) seluruh kerangka produk yang masuk di keranjang pesanan.
+   * Tembakkan setiap data ke tabel Odoo `sale.order.line` sehingga rincian jumlah (*Quantity*) dan nominal (Harga) cocok seperti di *website*.
 
 ---
 
@@ -100,36 +96,32 @@ Dokumen ini berisi panduan teknis langkah demi langkah (kombinasi *node* n8n dan
 
 ---
 
-## 13. Ghosting Re-engagement (Email "Teguran" Bos)
-**Konsep:** Mencari Lead yang sepi interaksi selama 14 hari, lalu otomatis diledakkan email dengan nama/tandatangan CEO.
+## 13. Auto-Cleansing & Formatting Data Kontak (Data Quality Control)
+**Konsep:** Memanfaatkan alur logika n8n untuk membersihkan format penulisan nomor *handphone* yang berantakan, dan secara cerdas memvalidasi keaslian *email* penanya sebelum data difilter dan diizinkan masuk ke CRM Odoo.
 
 **Langkah-langkah n8n:**
-1. **Node 1: Schedule Trigger (Tiap Minggu Sore)**
-2. **Node 2: Odoo (Cari Dead Leads)**
-   * **Model:** `crm.lead`
-   * **Filter 1:** `state` / `stage_id` = Tahap "Proposition" atau "Negotiation" (Bukan Won/Lost).
-   * **Filter 2:** `write_date` <= `{{ $today.minus(14, 'days') }}` (Sudah lewat 2 minggu).
-3. **Node 3: Send Email / Gmail**
-   * Hubungkan ke akun email Bos (misal CEO@perusahaan.com).
-   * **To:** `{{ $json.email_from }}`
-   * **Subject:** Pertanyaan terkait project kita
-   * **Body:** "Halo Pak/Bu {{ $json.contact_name }}, Saya [Nama CEO], CEO PT Maju. Tim saya menginfokan ada penawaran yang menggantung. Apakah masih ada hal yang membuat ragu? Jangan ragu balas email saya langsung."
+1. **Node 1: Webhook (Menerima Payload Lead Baru)**
+   * Menyerap data *lead* dari *form* eksternal mana pun yang dikirim klien acak.
+2. **Node 2: Abstract API / Clearbit**
+   * Melakukan verifikasi untuk mengecek bahwa *email* bukan *disposable* (email sampah sementara), tidak memantul (*bouncing*), dan berpotensi valid aktif.
+3. **Node 3: Code Node (Regex)**
+   * Menganut aturan "Pembersihan Nomor HP". Menghilangkan strip, kurung, dan mengubah setiap variasi nomor bodoh (misal awalan "08") menjadi nomor standar internasional yang bersih berawal kode `+62xx`.
+4. **Node 4: Odoo (Filter Check & Create Lead)**
+   * Apabila seluruh validasi tersebut mulus dilalui oleh *If Node*, terbitkan Lead yang higienis ke `crm.lead` Odoo.
 
 ---
 
-## 14. Klien VIP Komplain -> Sirine Handphone Bos
-**Konsep:** Membedakan keluhan pelanggan elit vs gratisan. Kalau VIP yang ngeluh, prioritas 1.
+## 14. Ekstraksi Dokumen Legal (NPWP/NIB) menggunakan AI Vision
+**Konsep:** Mempermudah alur *Vendor Onboarding*. Calon *supplier* atau kontraktor baru cukup menyetorkan lampiran foto dokumen SPPKP/NPWP mereka lewat aplikasi pesan (*WhatsApp*). N8n dibantu AI lalu akan mencegat dan mengekstrak rincian legal itu, menghasilkan profil perusahaan *vendor* matang di Odoo.
 
 **Langkah-langkah n8n:**
-1. **Node 1: Odoo / Webhook / Email Trigger (Tiket Masuk)**
-   * Mendeteksi ada Helpdesk Ticket atau Email Komplain baru masuk.
-2. **Node 2: Odoo (Cek Status VIP)**
-   * **Model:** `res.partner`
-   * Berdasarkan email pengirim tiket, cek apakah `partner` tersebut memiliki `category_id` (Tags) yang bernama "VIP" atau "Tier 1".
-3. **Node 3: If Node**
-   * Jika Tag = VIP -> Lanjut ke Node 4. Jika bukan -> Selesai (Biar CS biasa yang balas besok).
-4. **Node 4: Panggilan Darurat (Twilio Voice / Telegram Call)**
-   * Gunakan API seperti Twilio Programmable Voice untuk langsung menelepon nomor HP Direktur dengan pesan suara robot: "Waspada Pak. Klien VIP PT Delta mengirim komplain kritis ke sistem. Mohon segera di-handle."
-   * Atau *Ping* khusus mention di Slack/Telegram.
-5. **Node 5: Odoo (Update Ticket Priority)**
-   * Update tiket/Email tadi menjai *Priority: High* (Bintang 3).
+1. **Node 1: WhatsApp Trigger (Tangkapan Dokumen Masuk)**
+   * Menerima potret atau scan bukti berformat PDF/JPG dokumen (contoh: NPWP).
+2. **Node 2: OpenAI (Vision)**
+   * Memberikan instruksi (*prompt*): "Teks dalam potret ini adalah dokumen legal wajib pajak di Indonesia. Bacalah seksama dan tarik informasi krusial: 'Nomor NPWP/VAT', 'Nama Resmi Perusahaan', dan 'Alamat Jalan' dalam luaran JSON."
+3. **Node 3: JSON Parse**
+   * Mentransformasikan variabel hasil bacaan AI menjadi daftar informasi sistem n8n.
+4. **Node 4: Odoo (Create Vendor Profile)**
+   * **Model Name:** `res.partner`
+   * **Operation:** Create
+   * Menjejalkan Nama Perusahaan ke kolom perusahaannya, memasukkan 15 digit angka pajak ke atribut `vat`, dan memberikan stempel centang bahwa entitas baru ini adalah seorang `supplier/vendor`.
