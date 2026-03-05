@@ -1,0 +1,16 @@
+External ID,Name,Product Type,Internal Reference,Barcode,Sales Price,Cost,Weight,Sales Description
+product_svc_01,AI Chatbot Development,Service,SRV-AI-CHAT,,25000000,15000000,,"Custom AI Chatbot development with NLP, trained on your business data. Includes 3 months support."
+product_svc_02,n8n Workflow Automation,Service,SRV-N8N-AUTO,,15000000,8000000,,"Custom n8n workflow automation setup. Connects your apps and automates repetitive tasks."
+product_svc_03,Odoo ERP Implementation,Service,SRV-ODOO-IMPL,,50000000,30000000,,"Full Odoo ERP implementation including setup, customization, data migration, and training."
+product_svc_04,Odoo Custom Module Development,Service,SRV-ODOO-DEV,,20000000,12000000,,Custom Odoo module development tailored to your business processes.
+product_svc_05,AI Integration Consulting (per hour),Service,SRV-AI-CONSULT,,5000000,2500000,,Per-hour AI integration consulting. Strategy and architecture review.
+product_svc_06,WhatsApp Bot Setup,Service,SRV-WA-BOT,,10000000,5000000,,"WhatsApp Business API bot setup with auto-reply, lead capture, and CRM integration."
+product_svc_07,Data Analytics Dashboard,Service,SRV-DASHBOARD,,18000000,10000000,,Custom data analytics dashboard with real-time KPI tracking and automated reporting.
+product_svc_08,Website Development,Service,SRV-WEB-DEV,,30000000,18000000,,"Professional website development with modern design, SEO optimization, and CMS."
+product_svc_09,Monthly IT Support,Service,SRV-IT-SUPPORT,,8000000,4000000,,"Monthly IT support package. Includes server monitoring, troubleshooting, and maintenance."
+product_svc_10,API Integration Service,Service,SRV-API-INTEG,,12000000,7000000,,"Custom API integration between your existing systems. REST, GraphQL, and webhook support."
+product_sub_01,AI Chatbot - Monthly Subscription,Service,SUB-AI-CHAT,,3000000,1500000,,"Monthly subscription for AI Chatbot hosting, maintenance, and model updates."
+product_sub_02,n8n Cloud Hosting - Monthly,Service,SUB-N8N-HOST,,1500000,500000,,"Managed n8n cloud hosting with dedicated resources, backups, and monitoring."
+product_sub_03,Odoo Hosting & Maintenance - Monthly,Service,SUB-ODOO-HOST,,5000000,2000000,,"Monthly Odoo server hosting, maintenance, backup, and security updates."
+product_sub_04,SEO & Digital Marketing - Monthly,Service,SUB-SEO,,7000000,3500000,,"Monthly SEO optimization, content strategy, and digital marketing management."
+product_sub_05,Full Stack Support - Monthly,Service,SUB-FULLSTACK,,15000000,8000000,,"Comprehensive monthly support: Odoo, n8n, AI systems, server, and development."
